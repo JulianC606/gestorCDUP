@@ -10,11 +10,16 @@ app.use(
   bodyParser.json()
 )
 
-app.use(
-  bodyParser.urlencoded(
-    { extended: false }
-  )
-)
+app.use(bodyParser.urlencoded({ extended: false }))
+
+app.use(sassMiddleware({
+  /* Options */
+  src: path.join(__dirname, '../src/sass'),
+  dest: path.join(__dirname, '../public'),
+  debug: true,
+  prefix: '/css',
+  outputStyle: 'compressed'
+}))
 
 app.set('view engine', 'hbs')
 app.set('views', path.join(__dirname, '../src/views'))
@@ -27,18 +32,10 @@ app.engine('hbs', hbs({
   partialsDir: path.join(__dirname, '../src/views/partials/')
 }))
 
-app.use(sassMiddleware({
-  /* Options */
-  src: path.join(__dirname, '../src/sass'),
-  dest: path.join(__dirname, '../public'),
-  debug: true,
-  outputStyle: 'compressed'
-}))
-
 app.use(
   express.static(
     path.join(
-      __dirname, 'public'
+      __dirname, '../public'
     )
   )
 )
